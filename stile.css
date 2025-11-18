@@ -1,91 +1,280 @@
+/* ==========================================================================
+   Design system minimale: colori, tipografia, spazio
+   Usa variabili CSS per coerenza e dark mode.
+   ========================================================================== */
+:root {
+  --brand-600: #003f87;   /* Blu corporate principale */
+  --brand-700: #003572;
+  --accent-500: #2fbf71;  /* Accento (verde) per badge/azioni */
+  --bg-0: #ffffff;        /* Sfondo elementi */
+  --bg-1: #f6f7fb;        /* Sfondo sezioni */
+  --text-900: #1f2937;    /* Testo principale */
+  --text-700: #4b5563;    /* Testo secondario */
+  --muted: #6b7280;       /* Note e metadati */
+  --border: #e5e7eb;      /* Bordi leggeri */
+  --shadow: 0 6px 20px rgba(0,0,0,.08);
+
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  --container: 1120px;
+
+  --step--1: clamp(0.875rem, 0.82rem + 0.2vw, 0.95rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.6vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2rem);
+  --step-3: clamp(2rem, 1.8rem + 1.6vw, 2.6rem);
+}
+
+/* Dark mode automatica se il sistema utente la preferisce */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-0: #0f172a;
+    --bg-1: #0b1223;
+    --text-900: #e5e7eb;
+    --text-700: #cbd5e1;
+    --muted: #94a3b8;
+    --border: #1e293b;
+    --shadow: 0 8px 24px rgba(0,0,0,.45);
+    --brand-600: #4c8bd8;
+    --brand-700: #3a6fad;
+    --accent-500: #4cd592;
+  }
+}
+
+/* ==========================================================================
+   Reset leggero e base tipografica
+   ========================================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: var(--text-900);
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 40%);
+  line-height: 1.6;
+  font-size: var(--step-0);
 }
 
-header {
-    background-color: #003f87;
-    color: white;
-    padding: 40px 20px;
-    text-align: center;
+/* Accessibilità: classe solo per screen reader */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  border: 0;
 }
 
-header h1 {
-    margin-bottom: 10px;
-    font-size: 2rem;
+/* Link "salta al contenuto" visibile al focus da tastiera */
+.skip-link {
+  position: absolute; left: 8px; top: -40px;
+  padding: 8px 12px; background: var(--brand-600); color: #fff; border-radius: 8px;
+  text-decoration: none; transition: top .2s ease;
+  z-index: 1000;
+}
+.skip-link:focus { top: 8px; }
+
+/* Contenitori e sezioni */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: 0 20px;
 }
 
-.download-section, .archive {
-    padding: 30px 20px;
-    max-width: 900px;
-    margin: auto;
+.section { padding: 64px 0; }
+.section-header h2 {
+  font-size: var(--step-2); margin: 0 0 6px 0;
+}
+.section-header p { color: var(--text-700); margin-top: 4px; }
+
+/* ==========================================================================
+   Header + Navigation
+   ========================================================================== */
+.site-header {
+  background:
+    radial-gradient(1200px 300px at 10% 0%, rgba(47,191,113,0.15), transparent 60%),
+    linear-gradient(180deg, var(--brand-700) 0%, var(--brand-600) 80%);
+  color: #fff;
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0;
 }
 
-.download-section h2, .archive h2 {
-    margin-bottom: 20px;
-    color: #003f87;
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: #fff; text-decoration: none; font-weight: 700; letter-spacing: .2px;
+}
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: inline-grid; place-items: center;
+  background: #fff; color: var(--brand-700); font-weight: 900;
+  box-shadow: var(--shadow);
+}
+.brand-text { font-size: 1.05rem; }
+
+.site-nav ul { list-style: none; display: flex; gap: 16px; margin: 0; padding: 0; }
+.site-nav a {
+  color: #e6f0ff; text-decoration: none; padding: 8px 10px; border-radius: 8px;
+}
+.site-nav a:hover,
+.site-nav a:focus { background: rgba(255,255,255,.12); outline: none; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero { padding: 28px 0 64px; }
+.hero-inner {
+  display: grid; gap: 28px; align-items: center;
+  grid-template-columns: 1.2fr .8fr;
+}
+.hero-copy h1 {
+  font-size: var(--step-3); margin: 8px 0 10px; color: #fff;
+}
+.lead { color: #e8f2ff; max-width: 52ch; }
+.hero-cta { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+.hero-media { display: grid; place-items: center; }
+/* HERO: riquadro con immagine di sfondo */
+.hero-figure {
+  width: 100%;
+  max-width: 440px;         /* puoi aumentare se vuoi un logo più grande */
+  aspect-ratio: 4 / 3;      /* cambia rapporto se serve (es. 3/1 per loghi orizzontali) */
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, .25);
+  box-shadow: 0 30px 60px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.12);
+
+  /* Immagine di sfondo */
+  background-image: url("images/Barilla_New Logo.webp");
+  background-size: contain;   /* il logo non viene tagliato */
+  background-position: center;/* centrato nel riquadro */
+  background-repeat: no-repeat;
+  background-color: rgba(255,255,255,.04); /* leggero tono di fondo */
+}
+
+
+/* ==========================================================================
+   Componenti: pulsanti, badge, card
+   ========================================================================== */
+.btn {
+  --btn-bg: #fff; --btn-fg: var(--brand-700); --btn-bd: transparent;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border-radius: 999px; font-weight: 700; text-decoration: none;
+  background: var(--btn-bg); color: var(--btn-fg); border: 1px solid var(--btn-bd);
+  box-shadow: var(--shadow); transition: transform .06s ease, background .2s ease, color .2s ease;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  --btn-bg: #fff; --btn-fg: var(--brand-700);
+}
+.btn-primary:hover,
+.btn-primary:focus { background: #f3f7ff; outline: none; }
+
+.btn-ghost {
+  --btn-bg: transparent; --btn-fg: #fff; --btn-bd: rgba(255,255,255,.45);
+  backdrop-filter: saturate(160%) blur(6px);
+}
+.btn-ghost:hover,
+.btn-ghost:focus { background: rgba(255,255,255,.1); outline: none; }
+
+.btn-link {
+  --btn-bg: transparent; --btn-fg: var(--brand-600); --btn-bd: transparent;
+  box-shadow: none; padding: 8px 10px; border-radius: 10px;
+}
+.btn-link:hover,
+.btn-link:focus { background: #eef3ff; outline: none; }
+
+/* CARD GRID (ultimi report) */
+.card-grid {
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(12, 1fr);
+}
+.card-grid .card {
+  grid-column: span 6;
+}
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .card-grid .card { grid-column: span 12; }
 }
 
 .card {
-    background-color: white;
-    padding: 20px;
-    margin: 15px 0;
-    border-left: 8px solid #003f87;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+  background: var(--bg-0);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover, .card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  border-color: rgba(0,0,0,.08);
+}
+.card h3 { margin: 8px 0 6px; font-size: var(--step-1); }
+.card-meta { color: var(--muted); margin: 0 0 10px; font-size: var(--step--1); }
+.card-desc { margin: 0 0 16px; color: var(--text-700); }
+.card-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.card-badge {
+  display: inline-block; background: linear-gradient(90deg, var(--accent-500), #72e0a7);
+  color: #083e20; padding: 6px 10px; border-radius: 999px; font-weight: 800;
+  font-size: .8rem; letter-spacing: .2px;
 }
 
-.card:hover {
-    transform: translateY(-3px);
+/* ARCHIVIO */
+.section-archive { background: var(--bg-1); }
+.archive-list {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 10px;
+}
+.archive-item {
+  background: var(--bg-0); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  box-shadow: var(--shadow);
+}
+.archive-item .muted { color: var(--muted); }
+
+/* CALLOUT/CONTATTI */
+.callout {
+  background:
+    radial-gradient(400px 200px at 100% 0%, rgba(47,191,113,.18), transparent 60%),
+    linear-gradient(180deg, #ffffffaa, #ffffffaa);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
 }
 
-.card a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    color: #003f87;
-    font-weight: bold;
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.3s;
+/* FOOTER */
+.site-footer {
+  background: var(--bg-1); border-top: 1px solid var(--border); margin-top: 20px;
+}
+.footer-inner {
+  padding: 28px 0; display: grid; gap: 10px; align-items: center;
+  grid-template-columns: 1fr auto 1fr;
+}
+.footer-brand .brand-mark {
+  width: 32px; height: 32px; background: var(--brand-600); color: #fff;
+}
+.footer-nav { display: flex; gap: 14px; justify-content: center; }
+.footer-nav a { color: var(--text-700); text-decoration: none; }
+.footer-nav a:hover, .footer-nav a:focus { text-decoration: underline; }
+footer p { margin: 0; color: var(--muted); text-align: right; }
+
+/* Focus visibile per accessibilità su tutti gli elementi attivabili */
+a, button, .btn, .card {
+  outline-offset: 2px;
+}
+:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--brand-600), white 30%);
 }
 
-.card a:hover {
-    border-color: #003f87;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-ul li {
-    margin: 10px 0;
-}
-
-ul li a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #003f87;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-ul li a:hover {
-    text-decoration: underline;
-}
-
-/* Responsività */
-@media (max-width: 600px) {
-    header h1 {
-        font-size: 1.5rem;
-    }
-    .card {
-        padding: 15px;
-    }
+/* Piccole rifiniture responsive */
+@media (max-width: 700px) {
+  .footer-inner { grid-template-columns: 1fr; text-align: center; }
+  footer p { text-align: center; }
 }
